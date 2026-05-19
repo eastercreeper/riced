@@ -45,7 +45,7 @@
 
 (defvar gpumode_open false)
 (defpoll gpu_profile :interval "5s"
-  "bash -lc 'sudo -n envycontrol -q 2>/dev/null || envycontrol -q 2>/dev/null || echo unknown'")
+  "bash -lc 'envycontrol -q 2>/dev/null || sudo -n envycontrol -q 2>/dev/null || echo unknown'")
 
 (defwidget tray []
     (box :orientation "h"
