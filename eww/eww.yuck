@@ -67,14 +67,20 @@
 
 (defvar volrev false)
 (defvar volico "󰕾")
+(defvar audioout_open false)
+(defpoll audio_outputs :interval "3s" :initial "[]"
+  "./scripts/getaudiooutputs.sh"
+)
 
 (defwidget volume []
     (box :class "volume-short"
         (box :orientation "h"
              :space-evenly false
-             (label :text "${volico} " :style "margin-right:1px;")
+             (eventbox :cursor "pointer"
+                       :onclick "./scripts/audioctl.sh"
+                       (label :text "${volico} " :style "margin-right:1px;"))
              (label :class "bsht" 
-                    :text "${get_vol}%")
+                     :text "${get_vol}%")
         )
     )
 )
@@ -192,6 +198,34 @@
 )
 (defpoll power_profile :interval "5s"
   "bash -lc 'powerprofilesctl get 2>/dev/null || echo unknown'")
+
+(defwindow audioout_dd
+  :monitor 0
+  :stacking "overlay"
+  :focusable "ondemand"
+  :exclusive false
+  :geometry (geometry :anchor "top right"
+                      :x "285px"
+                      :y "0px"
+                      :width "260px"
+                      :height "210px")
+  (revealer
+    :reveal audioout_open
+    :transition "slidedown"
+    :duration "350ms"
+    (eventbox
+      :onhoverlost "eww update audioout_open=false; eww close audioout_dd"
+      (box :class "mode-dd-overlay" :orientation "v" :spacing 6
+        (box :class "wifi-header" :space-evenly false
+          (label :text "Audio Output"))
+        (scroll :vscroll true :class "audio-output-list"
+          (box :orientation "v" :space-evenly false
+            (for i in {audio_outputs}
+              (eventbox :cursor "pointer"
+                        :onclick "./scripts/set-default-sink.sh \"${i.name}\"; eww update audioout_open=false; eww close audioout_dd"
+                (button :class "wifi-buttons bat-btn audio-output-btn"
+                  "${i.is_default==true?"● ":""}${i.description}"))))))))
+)
 
 (defvar wifirev false)
 (defvar wifihov false)
@@ -617,7 +651,7 @@
     (box :space-evenly false
          :valign "start"
     (eventbox :class "shadow-container"
-         :onhoverlost "[ \"$powermode_open\" = \"true\" ] || ./scripts/usrctl.sh"
+         :onhoverlost "[ \"$powermode_open\" = \"true\" ] || [ \"$audioout_open\" = \"true\" ] || ./scripts/usrctl.sh"
          (box :orientation "v"
               :space-evenly false
          (box :class "main-container"
@@ -794,7 +828,7 @@
                                          :max 101 
                                          :min 0
                                          :round-digits 0
-                                         :onchange "pamixer --set-volume {}"
+                                         :onchange "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ {}%"
                                   )
                              )
                              (box :class "light-slider"

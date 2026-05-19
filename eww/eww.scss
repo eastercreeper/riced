@@ -274,6 +274,15 @@ menu {
   background-color:rgba(0,0,0,0.28);
 }
 
+.audio-output-list{
+  min-height: 8rem;
+  margin-top: 8px;
+}
+
+.audio-output-btn{
+  min-width: 220px;
+}
+
 .app-container{
   min-height:25rem;
 }
@@ -809,5 +818,4 @@ tooltip{
   background-color:rgb(144, 104, 220);
   border-radius: 10px;
 }
-
 
