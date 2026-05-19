@@ -17,7 +17,7 @@ esac
 
 if [[ -z "$ENVYCONTROL_BIN" ]]; then
   if command -v notify-send >/dev/null 2>&1; then
-    notify-send "GPU mode not changed" "envycontrol is not installed. Install it to use GPU mode switching."
+    notify-send "GPU mode not changed" "envycontrol is not installed. Install the envycontrol package to use GPU mode switching."
   fi
   exit 1
 fi

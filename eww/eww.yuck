@@ -71,7 +71,7 @@
 (defwidget volume []
     (eventbox :class "volume-short"
               :cursor "pointer"
-              :onclick '${wifictlrev == true ? "bash -c \"./scripts/wifictl.sh & sleep 0.233 && ./scripts/usrctl.sh &\"" : "./scripts/usrctl.sh"}'
+              :onclick "./scripts/openusrctl.sh"
         (box :orientation "h"
              :space-evenly false
               (label :text "${volico} " :style "margin-right:1px;")
@@ -501,11 +501,11 @@
 (defwidget power []
     (box :class "power"
          :orientation "h"
-         (eventbox :onclick '${wifictlrev == true ? "bash -c \"./scripts/wifictl.sh & sleep 0.233 && ./scripts/usrctl.sh &\"" : "./scripts/usrctl.sh"}'
+         (eventbox :onclick "./scripts/openusrctl.sh"
                    :cursor "pointer"
                    :class "power-eventbox"
                    (label :text "󰻃 ")
-         )
+          )
     )
 )
 
