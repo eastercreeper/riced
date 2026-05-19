@@ -7,7 +7,7 @@ case "$mode" in
   integrated|nvidia|hybrid) ;;
   *)
     echo "Usage: $0 {integrated|nvidia|hybrid}" >&2
-    exit 2
+    exit 1
     ;;
 esac
 

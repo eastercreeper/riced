@@ -133,15 +133,15 @@
             (label :class "yescon" :text "${gpu_profile == "integrated" ? "Integrated" : gpu_profile == "nvidia" ? "NVIDIA" : gpu_profile == "hybrid" ? "Hybrid" : "Unknown"}")
         )
         (eventbox :cursor "pointer"
-          :onclick "bash -lc '$HOME/.config/eww/scripts/set-gpu-mode.sh integrated' && eww update gpumode_open=false && eww close gpumode_dd"
+          :onclick "bash -lc './scripts/set-gpu-mode.sh integrated' && eww update gpumode_open=false && eww close gpumode_dd"
           (button :class "wifi-buttons bat-btn"
             "Integrated"))
         (eventbox :cursor "pointer"
-          :onclick "bash -lc '$HOME/.config/eww/scripts/set-gpu-mode.sh nvidia' && eww update gpumode_open=false && eww close gpumode_dd"
+          :onclick "bash -lc './scripts/set-gpu-mode.sh nvidia' && eww update gpumode_open=false && eww close gpumode_dd"
           (button :class "wifi-buttons bat-btn"
             "NVIDIA"))
         (eventbox :cursor "pointer"
-          :onclick "bash -lc '$HOME/.config/eww/scripts/set-gpu-mode.sh hybrid' && eww update gpumode_open=false && eww close gpumode_dd"
+          :onclick "bash -lc './scripts/set-gpu-mode.sh hybrid' && eww update gpumode_open=false && eww close gpumode_dd"
           (button :class "wifi-buttons bat-btn"
             "Hybrid"))
       )
