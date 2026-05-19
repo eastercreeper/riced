@@ -54,7 +54,7 @@ if run_envycontrol; then
 fi
 
 if command -v notify-send >/dev/null 2>&1; then
-  failure_message="Allow envycontrol through pkexec or passwordless sudo to switch modes from Eww."
+  failure_message="Allow envycontrol through pkexec or passwordless sudo to switch modes from eww."
   if [[ -n "$SUDO_ERROR" ]]; then
     failure_message="$failure_message sudo said: $SUDO_ERROR"
   fi
