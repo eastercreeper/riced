@@ -70,9 +70,9 @@
 
 (defwidget volume []
     (eventbox :cursor "pointer"
-              :class "volume-short"
               :onclick "./scripts/usrctl.sh"
-        (box :orientation "h"
+        (box :class "volume-short"
+             :orientation "h"
              :space-evenly false
              (label :text "${volico} " :style "margin-right:1px;")
              (label :class "bsht" 
