@@ -30,6 +30,7 @@ run_and_capture() {
 }
 
 notify_success() {
+  local mode="$1"
   if command -v notify-send >/dev/null 2>&1; then
     notify-send "GPU Mode" "Successfully switched to $mode" -t 3000
   fi
@@ -40,18 +41,18 @@ if command -v notify-send >/dev/null 2>&1; then
 fi
 
 if run_and_capture envycontrol -s "$mode"; then
-  notify_success
+  notify_success "$mode"
   exit 0
 fi
 
 if run_and_capture sudo -n envycontrol -s "$mode"; then
-  notify_success
+  notify_success "$mode"
   exit 0
 fi
 
 if command -v pkexec >/dev/null 2>&1; then
   if run_and_capture pkexec envycontrol -s "$mode"; then
-    notify_success
+    notify_success "$mode"
     exit 0
   fi
 fi
