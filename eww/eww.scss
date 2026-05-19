@@ -277,6 +277,24 @@ menu {
   background-color:rgba(0,0,0,0.28);
 }
 
+.audio-output-list{
+  min-height: 8rem;
+  margin-top: 8px;
+}
+
+.audio-output-btn{
+  color: #cdd6f4;
+  border-radius: 10px;
+  background-color: rgba(0,0,0,0.52);
+  padding: 8px 12px;
+  min-width: 220px;
+  transition: background-color 0.3s, color 0.3s;
+  &:hover {
+    background-color: rgba(70,70,220,0.85);
+    color: #fff;
+  }
+}
+
 .app-container{
   min-height:25rem;
 }
