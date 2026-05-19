@@ -69,14 +69,15 @@
 (defvar volico "󰕾")
 
 (defwidget volume []
-    (box :class "volume-short"
+    (eventbox :class "volume-short"
+              :cursor "pointer"
+              :onclick '${wifictlrev == true ? "bash -c \"./scripts/wifictl.sh & sleep 0.233 && ./scripts/usrctl.sh &\"" : "./scripts/usrctl.sh"}'
         (box :orientation "h"
              :space-evenly false
-             (label :text "${volico} " :style "margin-right:1px;")
-             (label :class "bsht" 
-                    :text "${get_vol}%")
-        )
-    )
+              (label :text "${volico} " :style "margin-right:1px;")
+              (label :class "bsht" 
+                     :text "${get_vol}%")
+        ))
 )
 
 (defwidget ram []
@@ -131,15 +132,15 @@
             (label :class "yescon" :text "${gpu_profile == "integrated" ? "Integrated" : gpu_profile == "nvidia" ? "NVIDIA" : gpu_profile == "hybrid" ? "Hybrid" : "Unknown"}")
         )
         (eventbox :cursor "pointer"
-          :onclick "sudo envycontrol -s integrated; eww update gpumode_open=false; eww close gpumode_dd"
+          :onclick "./scripts/gpumodectl.sh integrated"
           (button :class "wifi-buttons bat-btn"
             "Integrated"))
         (eventbox :cursor "pointer"
-          :onclick "sudo envycontrol -s nvidia; eww update gpumode_open=false; eww close gpumode_dd"
+          :onclick "./scripts/gpumodectl.sh nvidia"
           (button :class "wifi-buttons bat-btn"
             "NVIDIA"))
         (eventbox :cursor "pointer"
-          :onclick "sudo envycontrol -s hybrid; eww update gpumode_open=false; eww close gpumode_dd"
+          :onclick "./scripts/gpumodectl.sh hybrid"
           (button :class "wifi-buttons bat-btn"
             "Hybrid"))
       )
