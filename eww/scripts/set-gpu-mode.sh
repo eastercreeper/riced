@@ -29,16 +29,29 @@ run_and_capture() {
   return 1
 }
 
+if command -v notify-send >/dev/null 2>&1; then
+  notify-send "GPU Mode" "Switching to $mode..." -t 3000
+fi
+
 if run_and_capture envycontrol -s "$mode"; then
+  if command -v notify-send >/dev/null 2>&1; then
+    notify-send "GPU Mode" "Successfully switched to $mode" -t 3000
+  fi
   exit 0
 fi
 
 if run_and_capture sudo -n envycontrol -s "$mode"; then
+  if command -v notify-send >/dev/null 2>&1; then
+    notify-send "GPU Mode" "Successfully switched to $mode" -t 3000
+  fi
   exit 0
 fi
 
 if command -v pkexec >/dev/null 2>&1; then
   if run_and_capture pkexec envycontrol -s "$mode"; then
+    if command -v notify-send >/dev/null 2>&1; then
+      notify-send "GPU Mode" "Successfully switched to $mode" -t 3000
+    fi
     exit 0
   fi
 fi
