@@ -6,6 +6,7 @@ EWW_BIN="${EWW_BIN:-/usr/bin/eww}"
 GPU_MODE_OPEN_VAR="${GPU_MODE_OPEN_VAR:-gpumode_open}"
 GPU_MODE_WINDOW="${GPU_MODE_WINDOW:-gpumode_dd}"
 ENVYCONTROL_BIN="$(command -v envycontrol || true)"
+SUDO_ERROR=""
 
 case "$MODE" in
   integrated|nvidia|hybrid) ;;
@@ -28,8 +29,12 @@ run_envycontrol() {
     return 0
   fi
 
-  if command -v sudo >/dev/null 2>&1 && sudo -n "$ENVYCONTROL_BIN" -s "$MODE" 2>/dev/null; then
-    return 0
+  if command -v sudo >/dev/null 2>&1; then
+    local sudo_output
+    if sudo_output="$(sudo -n "$ENVYCONTROL_BIN" -s "$MODE" 2>&1)"; then
+      return 0
+    fi
+    SUDO_ERROR="$sudo_output"
   fi
 
   if command -v pkexec >/dev/null 2>&1; then
@@ -49,9 +54,13 @@ if run_envycontrol; then
 fi
 
 if command -v notify-send >/dev/null 2>&1; then
+  failure_message="Allow envycontrol through pkexec or passwordless sudo to switch modes from Eww."
+  if [[ -n "$SUDO_ERROR" ]]; then
+    failure_message="$failure_message sudo said: $SUDO_ERROR"
+  fi
   notify-send \
     "GPU mode not changed" \
-    "Allow envycontrol through pkexec or passwordless sudo to switch modes from Eww."
+    "$failure_message"
 fi
 
 exit 1

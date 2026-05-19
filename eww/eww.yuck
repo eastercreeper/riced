@@ -71,6 +71,7 @@
 (defwidget volume []
     (eventbox :class "volume-short"
               :cursor "pointer"
+              :tooltip "Open control panel"
               :onclick "./scripts/openusrctl.sh"
         (box :orientation "h"
              :space-evenly false
