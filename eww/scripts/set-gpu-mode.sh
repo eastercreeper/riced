@@ -44,7 +44,7 @@ if command -v pkexec >/dev/null 2>&1; then
 fi
 
 if command -v notify-send >/dev/null 2>&1; then
-  notify-send "GPU mode change failed" "${err_msg:-Could not run envycontrol. Configure sudoers NOPASSWD or polkit for non-interactive use.}"
+  notify-send "GPU mode change failed" "${err_msg:-All privilege methods failed. Check permissions and configure sudoers/polkit for envycontrol.}"
 fi
 
 exit 1
