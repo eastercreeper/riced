@@ -25,6 +25,7 @@ fi
 run_envycontrol() {
   if [[ "$(id -u)" -eq 0 ]]; then
     "$ENVYCONTROL_BIN" -s "$MODE"
+    return 0
   fi
 
   if command -v sudo >/dev/null 2>&1 && sudo -n "$ENVYCONTROL_BIN" -s "$MODE" 2>/dev/null; then
