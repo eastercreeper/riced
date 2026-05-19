@@ -8,4 +8,8 @@ if pactl set-default-sink "$sink" >/dev/null 2>&1; then
     exit 0
 fi
 
-wpctl set-default "$sink" >/dev/null 2>&1
+if wpctl set-default "$sink" >/dev/null 2>&1; then
+    exit 0
+fi
+
+exit 1

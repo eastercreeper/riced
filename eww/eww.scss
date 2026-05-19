@@ -280,7 +280,16 @@ menu {
 }
 
 .audio-output-btn{
+  color: #cdd6f4;
+  border-radius: 10px;
+  background-color: rgba(0,0,0,0.52);
+  padding: 8px 12px;
   min-width: 220px;
+  transition: background-color 0.3s, color 0.3s;
+  &:hover {
+    background-color: rgba(70,70,220,0.85);
+    color: #fff;
+  }
 }
 
 .app-container{
@@ -818,4 +827,3 @@ tooltip{
   background-color:rgb(144, 104, 220);
   border-radius: 10px;
 }
-

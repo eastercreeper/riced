@@ -78,8 +78,9 @@
              :space-evenly false
              (eventbox :cursor "pointer"
                        :onclick "./scripts/audioctl.sh"
+                       :tooltip " Audio output "
                        (label :text "${volico} " :style "margin-right:1px;"))
-             (label :class "bsht" 
+              (label :class "bsht" 
                      :text "${get_vol}%")
         )
     )
@@ -223,7 +224,7 @@
             (for i in {audio_outputs}
               (eventbox :cursor "pointer"
                         :onclick "./scripts/set-default-sink.sh \"${i.name}\"; eww update audioout_open=false; eww close audioout_dd"
-                (button :class "wifi-buttons bat-btn audio-output-btn"
+                (button :class "audio-output-btn"
                   "${i.is_default==true?"● ":""}${i.description}"))))))))
 )
 
