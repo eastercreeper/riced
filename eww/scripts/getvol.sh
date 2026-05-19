@@ -13,9 +13,11 @@ update_vol() {
 
   if grep -q 'MUTED' <<<"$out"; then
     "$EWW" update volico="󰖁"
+    # Output to stdout for deflisten to capture and update get_vol variable
     echo "0"
   else
     "$EWW" update volico="󰕾"
+    # Output to stdout for deflisten to capture and update get_vol variable
     echo "$vol"
   fi
 }
