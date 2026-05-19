@@ -73,18 +73,17 @@
 )
 
 (defwidget volume []
-    (eventbox :cursor "pointer"
-              :onclick "./scripts/usrctl.sh"
-        (box :class "volume-short"
-             :orientation "h"
-             :space-evenly false
-             (eventbox :cursor "pointer"
-                       :onclick "./scripts/audioctl.sh"
-                       :tooltip " Audio output "
-                       (label :text "${volico} " :style "margin-right:1px;"))
-              (label :class "bsht" 
-                     :text "${get_vol}%")
-        )
+    (box :class "volume-short"
+         :orientation "h"
+         :space-evenly false
+        (eventbox :cursor "pointer"
+                  :onclick "./scripts/audioctl.sh"
+                  :tooltip " Audio output "
+                  (label :text "${volico} " :style "margin-right:1px;"))
+        (eventbox :cursor "pointer"
+                  :onclick "./scripts/usrctl.sh"
+                  (label :class "bsht" 
+                         :text "${get_vol}%"))
     )
 )
 
@@ -837,7 +836,7 @@
                              (box :class "light-slider"
                                   :space-evenly false
                                   :halign "center"
-                                  (label :text "")
+                                  (label :text "󰃟")
                                   (scale :value get_light
                                          :class "lig"
                                          :max 101 
@@ -870,7 +869,7 @@
 )
 
 (defvar get_vol "")
-(deflisten get_volume
+(deflisten get_vol
     "./scripts/getvol.sh"
 )
 

@@ -13,10 +13,10 @@ update_vol() {
 
   if grep -q 'MUTED' <<<"$out"; then
     "$EWW" update volico="󰖁"
-    "$EWW" update get_vol="0"
+    echo "0"
   else
     "$EWW" update volico="󰕾"
-    "$EWW" update get_vol="$vol"
+    echo "$vol"
   fi
 }
 
