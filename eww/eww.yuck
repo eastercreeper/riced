@@ -223,7 +223,7 @@
           (box :orientation "v" :space-evenly false
             (for i in {audio_outputs}
               (eventbox :cursor "pointer"
-                        :onclick "./scripts/set-default-sink.sh \"${i.name}\"; eww update audioout_open=false; eww close audioout_dd"
+                        :onclick "./scripts/select-audio-output.sh \"${i.name}\""
                 (button :class "audio-output-btn"
                   "${i.is_default==true?"● ":""}${i.description}"))))))))
 )
