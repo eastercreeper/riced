@@ -45,7 +45,7 @@
 
 (defvar gpumode_open false)
 (defpoll gpu_profile :interval "5s"
-  "bash -lc 'envycontrol -q 2>/dev/null || echo unknown'")
+  "bash -lc 'sudo -n envycontrol -q 2>/dev/null || envycontrol -q 2>/dev/null || echo unknown'")
 
 (defwidget tray []
     (box :orientation "h"
@@ -69,7 +69,9 @@
 (defvar volico "󰕾")
 
 (defwidget volume []
-    (box :class "volume-short"
+    (eventbox :cursor "pointer"
+              :class "volume-short"
+              :onclick "./scripts/usrctl.sh"
         (box :orientation "h"
              :space-evenly false
              (label :text "${volico} " :style "margin-right:1px;")
@@ -131,15 +133,15 @@
             (label :class "yescon" :text "${gpu_profile == "integrated" ? "Integrated" : gpu_profile == "nvidia" ? "NVIDIA" : gpu_profile == "hybrid" ? "Hybrid" : "Unknown"}")
         )
         (eventbox :cursor "pointer"
-          :onclick "sudo envycontrol -s integrated; eww update gpumode_open=false; eww close gpumode_dd"
+          :onclick "bash -lc './scripts/set-gpu-mode.sh integrated' && eww update gpumode_open=false && eww close gpumode_dd"
           (button :class "wifi-buttons bat-btn"
             "Integrated"))
         (eventbox :cursor "pointer"
-          :onclick "sudo envycontrol -s nvidia; eww update gpumode_open=false; eww close gpumode_dd"
+          :onclick "bash -lc './scripts/set-gpu-mode.sh nvidia' && eww update gpumode_open=false && eww close gpumode_dd"
           (button :class "wifi-buttons bat-btn"
             "NVIDIA"))
         (eventbox :cursor "pointer"
-          :onclick "sudo envycontrol -s hybrid; eww update gpumode_open=false; eww close gpumode_dd"
+          :onclick "bash -lc './scripts/set-gpu-mode.sh hybrid' && eww update gpumode_open=false && eww close gpumode_dd"
           (button :class "wifi-buttons bat-btn"
             "Hybrid"))
       )
