@@ -1,12 +1,12 @@
-# 🌸 Nyarch Hyprland Dotfiles
+# 🌸 Arch Hyprland Dotfiles
 
-My personal **Nyarch Linux + Hyprland** configuration.
+My personal **Arch Linux + Hyprland** configuration.
 
 This repository contains my desktop configuration, launcher setup, terminal configuration, Fastfetch setup, and other files used for my Hyprland rice.
 
 ## 🖥️ Setup
 
-* **OS:** Nyarch Linux
+* **OS:** Arch Linux
 * **WM:** Hyprland
 * **Shell:** Fish
 * **Terminal:** Kitty
@@ -124,7 +124,7 @@ Some paths, monitor settings, application names, scripts, wallpapers, and hardwa
 ## ❤️ Credits
 
 * Hyprland
-* Nyarch Linux
+* Arch Linux
 * Eww
 * Radiq
 * Fastfetch
@@ -135,4 +135,4 @@ Some paths, monitor settings, application names, scripts, wallpapers, and hardwa
 
 ---
 
-Made with 🌸 on Nyarch Linux.
+Made with 🌸 on Arch Linux.
