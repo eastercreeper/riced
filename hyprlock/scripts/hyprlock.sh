@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-if [[ "$(playerctl -p spotify status 2>/dev/null)" == "Playing" ]]; then
+if [[ "$(playerctl status 2>/dev/null)" == "Playing" ]]; then
     pkill glava
 
-    # Start Glava (NOT desktop mode)
+    # Start Glava
     glava &
     sleep 0.6
 
@@ -12,12 +12,13 @@ if [[ "$(playerctl -p spotify status 2>/dev/null)" == "Playing" ]]; then
     sleep 0.1
 
     # Fullscreen focused window
-    hyprctl dispatch fullscreen 
+    hyprctl dispatch fullscreen
 
-    # Lock screen
+    # Music lock screen
     hyprlock --config ~/.config/hyprlock/music.conf
 else
-    hyprlock
+    # Normal Kairii lock screen
+    hyprlock --config ~/.config/hypr/hyprlock.conf
 fi
 
 pkill glava

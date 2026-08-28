@@ -1,0 +1,10 @@
+[SddmGreeterTheme]
+Name=Kairii
+Description=Kairii soft pink login theme
+Author=Kairii
+Type=sddm-theme
+Version=1.0
+MainScript=Main.qml
+ConfigFile=theme.conf
+Theme-Id=kairii
+Theme-API=2.0

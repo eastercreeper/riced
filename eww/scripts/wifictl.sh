@@ -1,8 +1,15 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-if [[ -z $(eww active-windows | grep 'wifictl') ]]; then
-    /usr/bin/eww open wifictl && /usr/bin/eww update wifictlrev=true
+EWW="/usr/bin/eww"
+export EWW_CONFIG_DIR="$HOME/.config/eww"
+
+state="$($EWW get wifictlrev 2>/dev/null || echo false)"
+
+if [[ "$state" == "true" ]]; then
+    $EWW update wifictlrev=false
+    sleep 0.05
+    $EWW close wifictl
 else
-    /usr/bin/eww update wifictlrev=false && /usr/bin/eww update wificonfigrev=false
-    (sleep 0.2 && /usr/bin/eww close wifictl) &
+    $EWW update wifictlrev=true
+    $EWW open wifictl
 fi

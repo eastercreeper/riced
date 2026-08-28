@@ -74,16 +74,13 @@
 
 (defwidget volume []
     (eventbox :cursor "pointer"
-              :onclick "./scripts/usrctl.sh"
+              :onclick "./scripts/audioctl.sh"
         (box :class "volume-short"
              :orientation "h"
              :space-evenly false
-             (eventbox :cursor "pointer"
-                       :onclick "./scripts/audioctl.sh"
-                       :tooltip " Audio output "
-                       (label :text "${volico} " :style "margin-right:1px;"))
-              (label :class "bsht" 
-                     :text "${get_vol}%")
+             (label :text "${volico} " :style "margin-right:1px;")
+             (label :class "bsht"
+                    :text "${get_vol}%")
         )
     )
 )
@@ -118,7 +115,7 @@
 (defwindow gpumode_dd
   :monitor 0
   :stacking "overlay"
-  :focusable "ondemand"
+  :focusable true
   :exclusive false
   :geometry (geometry :anchor "top right"
                       :x "190px"
@@ -162,12 +159,12 @@
 (defwindow powermode_dd
   :monitor 0
   :stacking "overlay"
-  :focusable "ondemand"
+  :focusable true
   :exclusive false
   :geometry (geometry :anchor "top right"
                       :x "110px"
                       :y "0px"
-                      :width "190px"
+                      :width "250px"
                       :height "150px")
   (revealer
     :reveal powermode_open
@@ -205,7 +202,7 @@
 (defwindow audioout_dd
   :monitor 0
   :stacking "overlay"
-  :focusable "ondemand"
+  :focusable true
   :exclusive false
   :geometry (geometry :anchor "top right"
                       :x "285px"
@@ -244,7 +241,7 @@
         (eventbox :cursor "pointer"
                   :onhover "./scripts/wifi-delay.sh"
                   :onhoverlost "bash -c '/usr/bin/eww update wifirev=false && /usr/bin/eww update wifihov=false'"
-                  :onclick "${ctlrev==true?"./scripts/usrctl.sh && ./scripts/wifictl.sh":"./scripts/wifictl.sh"}"
+                  :onclick "./scripts/wifictl.sh"
                   (box :orientation "h"
                        :space-evenly false
                        (label :text "${wifistatus.icon}")
@@ -269,6 +266,7 @@
 
 (defwidget wifi_event []
     (eventbox :class "shadow-container"
+              :onhoverlost "eww update wifictlrev=false; eww close wifictl"
               (box :orientation "v"
                    :space-evenly false
               (box :class "wifictl-container"
@@ -379,7 +377,7 @@
 (defwindow wifictl
     :monitor 0
     :stacking "overlay"
-    :focusable "ondemand"
+    :focusable true
     :geometry (geometry :anchor "top right"
                         :x "5px"
                         :y "-14px"
@@ -471,7 +469,7 @@
 (defwindow menuctl
     :monitor 0
     :stacking "overlay"
-    :focusable "ondemand"
+    :focusable true
     :exclusive false
     :geometry (geometry :anchor "top left"
                         :x "5px"
@@ -537,7 +535,7 @@
 (defwidget power []
     (box :class "power"
          :orientation "h"
-         (eventbox :onclick '${wifictlrev == true ? "bash -c \"./scripts/wifictl.sh & sleep 0.233 && ./scripts/usrctl.sh &\"" : "./scripts/usrctl.sh"}'
+         (eventbox :onclick "./scripts/usrctl.sh"
                    :cursor "pointer"
                    :class "power-eventbox"
                    (label :text "󰻃 ")
@@ -629,7 +627,7 @@
 (defwindow usrctl 
     :monitor 0
     :stacking "overlay"
-    :focusable "ondemand"
+    :focusable true
     :exclusive false
     :geometry (geometry :anchor "top right"
                         :x "5px"
@@ -688,7 +686,7 @@
                                   )
                                   (eventbox :cursor "pointer"
                                             :class "logout"
-                                            :onclick "loginctl terminate-user $USER"
+                                            :onclick "hyprctl dispatch 'hl.dsp.exit()'"
                                             :tooltip " Logout "
                                             (label :text "")
                                   )
