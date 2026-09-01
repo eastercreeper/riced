@@ -582,6 +582,13 @@ hl.layer_rule({
     order = 10,
 })
 
+hl.layer_rule({
+    match = {
+        namespace = "radiq",
+    },
+    order = 100,
+})
+
 --################
 --## AUTOSTART ###
 --################
