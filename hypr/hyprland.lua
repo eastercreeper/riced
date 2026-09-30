@@ -8,18 +8,18 @@
 --## MONITORS ###
 --###############
 
-hl.monitor({
-    output   = "",
-    mode     = "preferred",
-    position = "auto",
-    scale    = 1,
-})
+-- hl.monitor({
+-- h    output   = "",
+-- h    mode     = "preferred",
+-- h    position = "auto",
+-- h    scale    = 1,
+-- h})
 
-hl.config({
-    ecosystem = {
-        no_update_news = true,
-    },
-})
+-- hhl.config({
+-- h    ecosystem = {
+   -- h     no_update_news = true,
+    -- h},
+-- h})
 
 --##################
 --## MY PROGRAMS ###
@@ -163,6 +163,22 @@ hl.device({
     accel_profile = "flat",
 })
 
+hl.config({
+    general = {
+        allow_tearing = true,
+    },
+    cursor = {
+        no_hardware_cursors = false, -- Keeps HW cursors active for latency
+        use_cpu_buffer = 2,          -- 2 = 'auto' (Enables CPU buffer needed for NVIDIA HW cursors)
+    },
+})
+
+-- The correct Lua structure for window rules
+hl.window_rule({
+    match = { class = "sh\\.ppy\\.osu" },
+    immediate = true,
+})
+
 
 --##################
 --## KEYBINDINGS ###
@@ -176,6 +192,13 @@ hl.bind(
     hl.dsp.exec_cmd("kitty")
 )
 
+-- Rotate Screen
+
+hl.bind(
+    mainMod .. " + " .. "K", 
+    hl.dsp.exec_cmd("~/.config/hypr/scripts/rotate.sh")
+)
+
 -- Toggle floating
 hl.bind(
     mainMod .. " + " .. "W",
@@ -186,7 +209,15 @@ hl.bind(
 hl.bind(
     mainMod .. " + " .. "A",
     hl.dsp.exec_cmd(
-        "grim -g \"$(slurp)\" ~/Pictures/Screenshots/screenshot.jpg"
+        "grim -g \"$(slurp)\" - | tee ~/Pictures/Screenshots/screenshot_$(date +%Y-%m-%d_%H-%M-%S).png | wl-copy"
+    )
+)
+
+-- Absolute touchpad thing
+hl.bind(
+    mainMod .. " + " .. "T",
+    hl.dsp.exec_cmd(
+        "~/bin/toggle-touchpad-absolute"
     )
 )
 

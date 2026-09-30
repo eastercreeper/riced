@@ -827,3 +827,16 @@ tooltip{
   background-color:rgb(144, 104, 220);
   border-radius: 10px;
 }
+
+.network-usage {
+    margin-left: 8px;
+}
+
+.net-down,
+.net-up {
+    font-size: 13px;
+}
+
+.net-down {
+    margin-right: 3px;
+}

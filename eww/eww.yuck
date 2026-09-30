@@ -8,6 +8,7 @@
               :space-evenly false
               (menu)
               (workspaces)
+              (network-usage)
          )
          (box :halign "center"
               :valign "center"
@@ -156,6 +157,10 @@
 (defvar powermode_open false)
 (defvar powerhov false)
 
+;; Fixed: Kept only this version with error-handling fallback
+(defpoll power_profile :interval "5s"
+  "bash -lc 'powerprofilesctl get 2>/dev/null || echo unknown'")
+
 (defwindow powermode_dd
   :monitor 0
   :stacking "overlay"
@@ -173,31 +178,37 @@
     (eventbox
       :onhoverlost "eww update powermode_open=false; eww close powermode_dd"
       (box :class "mode-dd-overlay" :orientation "v" :spacing 6
+
         (box :class "wifi-header" :space-evenly false
           (label :text "Power Mode")
         )
+
         (box :class "wifi-stats" :space-evenly false
-            (label :text "Current: ")
-            (label :class "yescon" :text "${power_profile == "power-saver" ? "Power Saver" : power_profile == "balanced" ? "Balanced" : "Performance"}")
+          (label :text "Current: ")
+          (label
+            :class "yescon"
+            :text "${power_profile == "power-saver" ? "Power Saver" : power_profile == "balanced" ? "Balanced" : "Performance"}"
+          )
         )
+
         (eventbox :cursor "pointer"
-          :onclick "bash -lc 'powerprofilesctl set power-saver'; eww update powermode_open=false; eww close powermode_dd"
+          :onclick "bash -lc 'powerprofilesctl set power-saver && notify-send \"Power Mode\" \"Power Saver\"'; eww update powermode_open=false; eww close powermode_dd"
           (button :class "wifi-buttons bat-btn"
-            "Power saver"))
+            "Power Saver"))
+
         (eventbox :cursor "pointer"
-          :onclick "bash -lc 'powerprofilesctl set balanced'; eww update powermode_open=false; eww close powermode_dd"
+          :onclick "bash -lc 'powerprofilesctl set balanced && notify-send \"Power Mode\" \"Balanced\"'; eww update powermode_open=false; eww close powermode_dd"
           (button :class "wifi-buttons bat-btn"
             "Balanced"))
+
         (eventbox :cursor "pointer"
-          :onclick "bash -lc 'powerprofilesctl set performance'; eww update powermode_open=false; eww close powermode_dd"
+          :onclick "bash -lc 'powerprofilesctl set performance && notify-send \"Power Mode\" \"Performance\"'; eww update powermode_open=false; eww close powermode_dd"
           (button :class "wifi-buttons bat-btn"
             "Performance"))
       )
     )
   )
 )
-(defpoll power_profile :interval "5s"
-  "bash -lc 'powerprofilesctl get 2>/dev/null || echo unknown'")
 
 (defwindow audioout_dd
   :monitor 0
@@ -226,6 +237,7 @@
                 (button :class "audio-output-btn"
                   "${i.is_default==true?"● ":""}${i.description}"))))))))
 )
+
 
 (defvar wifirev false)
 (defvar wifihov false)
@@ -865,6 +877,22 @@
 
 (defpoll get_light :interval "1s"
   "brightnessctl -m | awk -F, '{gsub(/%/, \"\", \$4); print \$4}'"
+)
+
+(defpoll network_usage :interval "1s"
+  "./scripts/network-usage.sh"
+)
+
+(defwidget network-usage []
+    (box :class "network-usage"
+         :orientation "h"
+         :space-evenly false
+         :spacing 6
+         (label :class "net-down"
+                :text "󰇚 ${network_usage.down}")
+         (label :class "net-up"
+                :text "󰕒 ${network_usage.up}")
+    )
 )
 
 (defvar get_vol "")
