@@ -1,0 +1,137 @@
+Window.SetBackgroundTopColor(0.008, 0.008, 0.010);
+Window.SetBackgroundBottomColor(0.008, 0.008, 0.010);
+
+screen_w = Window.GetWidth();
+screen_h = Window.GetHeight();
+
+# Composition follows the reference image and scales from the shorter screen edge.
+artwork_size = Math.Int(screen_h * 0.448);
+if (artwork_size > Math.Int(screen_w * 0.72))
+    artwork_size = Math.Int(screen_w * 0.72);
+
+artwork = Image("portrait.png").Scale(artwork_size, artwork_size);
+artwork_x = (screen_w - artwork_size) / 2;
+artwork_y = Math.Int(screen_h * 0.12);
+
+artwork_sprite = Sprite(artwork);
+artwork_sprite.SetPosition(artwork_x, artwork_y, 10);
+
+title = Image.Text("Kairii", 1.0, 0.84, 0.84, 1.0, "Sans 37", "center");
+star_source = Image("star.png");
+star_left = star_source.Scale(30, 30);
+star_right = star_source.Scale(30, 30);
+title_spacing = 18;
+title_width = star_left.GetWidth() + title_spacing + title.GetWidth()
+              + title_spacing + star_right.GetWidth();
+title_x = (screen_w - title_width) / 2;
+title_y = artwork_y + artwork_size + Math.Int(screen_h * 0.022);
+
+star_left_sprite = Sprite(star_left);
+star_left_sprite.SetPosition(title_x, title_y + 5, 20);
+
+title_text_x = title_x + star_left.GetWidth() + title_spacing;
+title_sprite = Sprite(title);
+title_sprite.SetPosition(title_text_x, title_y, 20);
+
+star_right_x = title_text_x + title.GetWidth() + title_spacing;
+star_right_sprite = Sprite(star_right);
+star_right_sprite.SetPosition(star_right_x, title_y + 5, 20);
+
+subtitle = Image.Text("Loading the void...", 0.82, 0.63, 0.65, 1.0, "Sans 21", "center");
+subtitle_y = title_y + title.GetHeight() + Math.Int(screen_h * 0.028);
+subtitle_sprite = Sprite(subtitle);
+subtitle_sprite.SetPosition((screen_w - subtitle.GetWidth()) / 2, subtitle_y, 20);
+
+bar_width = Math.Int(screen_w * 0.52);
+if (bar_width > 760)
+    bar_width = 760;
+if (bar_width < 300)
+    bar_width = 300;
+bar_height = 19;
+fill_height = bar_height - 4;
+fill_offset = (bar_height - fill_height) / 2;
+bar_x = (screen_w - bar_width) / 2;
+bar_y = subtitle_y + subtitle.GetHeight() + Math.Int(screen_h * 0.028);
+
+bar_background = Image("bar-background.png").Scale(bar_width, bar_height);
+bar_background_sprite = Sprite(bar_background);
+bar_background_sprite.SetPosition(bar_x, bar_y, 20);
+
+bar_fill_body_original = Image("bar-fill-body.png");
+bar_fill_body_sprite = Sprite();
+bar_fill_body_sprite.SetPosition(bar_x + fill_height / 2, bar_y + fill_offset, 21);
+bar_fill_body_sprite.SetOpacity(0);
+
+bar_fill_cap = Image("bar-fill-cap.png").Scale(fill_height, fill_height);
+bar_fill_cap_sprite = Sprite(bar_fill_cap);
+bar_fill_cap_sprite.SetPosition(bar_x, bar_y + fill_offset, 21);
+bar_fill_cap_sprite.SetOpacity(0);
+
+bar_fill_right_sprite = Sprite(bar_fill_cap);
+bar_fill_right_sprite.SetPosition(bar_x, bar_y + fill_offset, 21);
+bar_fill_right_sprite.SetOpacity(0);
+
+bar_border_sprite = Sprite(bar_background);
+bar_border_sprite.SetPosition(bar_x, bar_y, 22);
+
+percentage_y = bar_y + bar_height + Math.Int(screen_h * 0.011);
+percentage = Image.Text("0%", 0.82, 0.63, 0.65, 1.0, "Sans 22", "center");
+percentage_sprite = Sprite(percentage);
+percentage_sprite.SetPosition((screen_w - percentage.GetWidth()) / 2, percentage_y, 20);
+
+fun refresh_progress(duration, progress)
+{
+    if (progress < 0)
+        progress = 0;
+    if (progress > 1)
+        progress = 1;
+
+    fill_width = Math.Int(bar_width * progress);
+    if (progress <= 0)
+        {
+            bar_fill_body_sprite.SetOpacity(0);
+            bar_fill_cap_sprite.SetOpacity(0);
+            bar_fill_right_sprite.SetOpacity(0);
+            return;
+        }
+
+    bar_fill_cap_sprite.SetOpacity(1);
+
+    if (fill_width <= fill_height)
+        {
+            bar_fill_body_sprite.SetOpacity(0);
+            bar_fill_right_sprite.SetOpacity(0);
+        }
+    else
+        {
+            body_width = fill_width - fill_height;
+            body = bar_fill_body_original.Scale(body_width, fill_height);
+            bar_fill_body_sprite.SetImage(body);
+            bar_fill_body_sprite.SetOpacity(1);
+            bar_fill_right_sprite.SetPosition(
+                bar_x + fill_width - fill_height,
+                bar_y + fill_offset,
+                21
+            );
+            bar_fill_right_sprite.SetOpacity(1);
+        }
+
+    percent = Math.Int(progress * 100);
+    new_percentage = Image.Text(
+        String(percent) + "%",
+        0.82,
+        0.63,
+        0.65,
+        1.0,
+        "Sans 22",
+        "center"
+    );
+    percentage_sprite.SetImage(new_percentage);
+    percentage_sprite.SetPosition(
+        (screen_w - new_percentage.GetWidth()) / 2,
+        percentage_y,
+        20
+    );
+}
+
+Plymouth.SetBootProgressFunction(refresh_progress);
