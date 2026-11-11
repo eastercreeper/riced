@@ -15,6 +15,13 @@
 -- h    scale    = 1,
 -- h})
 
+hl.monitor({
+    output = "HDMI-A-1",
+    mode = "1920x1080@60",
+    position = "1920x0",
+    scale = "1"
+})
+
 -- hhl.config({
 -- h    ecosystem = {
    -- h     no_update_news = true,
